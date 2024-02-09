@@ -15,6 +15,7 @@ import com.nilesh.whatsappclone.model.User;
 import com.nilesh.whatsappclone.request.GroupChatRequest;
 import com.nilesh.whatsappclone.request.SingleChatRequest;
 import com.nilesh.whatsappclone.response.ApiResponse;
+import com.nilesh.whatsappclone.response.ChatWithMessageResponse;
 import com.nilesh.whatsappclone.service.ChatService;
 import com.nilesh.whatsappclone.service.UserService;
 
@@ -59,11 +60,11 @@ public class ChatController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<Chat>> findChatByUserIdHandler(@RequestHeader("Authorization") String jwt)
+    public ResponseEntity<List<ChatWithMessageResponse>> findChatByUserIdHandler(@RequestHeader("Authorization") String jwt)
             throws UserException, ChatException {
         User reqUser = userService.findUserByProfile(jwt);
-        List<Chat> chats = chatService.findAllChatByUserId(reqUser.getId());
-        return new ResponseEntity<List<Chat>>(chats, HttpStatus.OK);
+        List<ChatWithMessageResponse> chats = chatService.findAllChatByUserId(reqUser.getId());
+        return new ResponseEntity<List<ChatWithMessageResponse>>(chats, HttpStatus.OK);
     }
 
     @PostMapping("/{chatId}/add/{userId}")

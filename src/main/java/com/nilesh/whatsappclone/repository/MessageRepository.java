@@ -11,8 +11,11 @@ import com.nilesh.whatsappclone.model.Message;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Integer> {
-    
+
     @Query("select m from Message m join m.chat c where c.id = :chatId")
     public List<Message> findByChatId(@Param("chatId") Integer chatId);
+
+    @Query("select m from Message m join m.chat c where c.id = :chatId order by timestamp desc limit 1")
+    public Message findLastMessageByChatId(@Param("chatId") Integer chatId);
 
 }

@@ -1,5 +1,6 @@
 package com.nilesh.whatsappclone.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Service;
 import com.nilesh.whatsappclone.expection.ChatException;
 import com.nilesh.whatsappclone.expection.UserException;
 import com.nilesh.whatsappclone.model.Chat;
+import com.nilesh.whatsappclone.model.Message;
 import com.nilesh.whatsappclone.model.User;
 import com.nilesh.whatsappclone.repository.ChatRepository;
 import com.nilesh.whatsappclone.request.GroupChatRequest;
+import com.nilesh.whatsappclone.response.ChatWithMessageResponse;
 
 @Service
 public class ChatServiceImpl implements ChatService {
@@ -21,6 +24,9 @@ public class ChatServiceImpl implements ChatService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MessageService messageService;
 
     @Override
     public Chat createChat(User reqUser, Integer userId2) throws UserException {
@@ -47,10 +53,19 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public List<Chat> findAllChatByUserId(Integer userId) throws UserException {
+    public List<ChatWithMessageResponse> findAllChatByUserId(Integer userId) throws UserException, ChatException {
         User user = userService.findUserById(userId);
         List<Chat> chatByUserId = chatRepository.findChatByUserId(user.getId());
-        return chatByUserId;
+        List<ChatWithMessageResponse> chatWithMessages = new ArrayList<>();
+        for (Chat chat : chatByUserId) {
+            ChatWithMessageResponse chatWithMessageResponse = new ChatWithMessageResponse();
+            Message message = messageService.getChatsLastMessages(chat.getId(), user);
+            chatWithMessageResponse.setChat(chat);
+            chatWithMessageResponse.setMessage(message);
+            chatWithMessages.add(chatWithMessageResponse);
+        }
+        return chatWithMessages;
+        // return chatByUserId;
 
     }
 

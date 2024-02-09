@@ -8,13 +8,14 @@ import com.nilesh.whatsappclone.expection.UserException;
 import com.nilesh.whatsappclone.model.Chat;
 import com.nilesh.whatsappclone.model.User;
 import com.nilesh.whatsappclone.request.GroupChatRequest;
+import com.nilesh.whatsappclone.response.ChatWithMessageResponse;
 
 public interface ChatService {
     public Chat createChat(User reqUser, Integer userId2) throws UserException;
 
     public Chat findChatById(Integer chatId) throws ChatException;
 
-    public List<Chat> findAllChatByUserId(Integer userId) throws UserException;
+    public List<ChatWithMessageResponse> findAllChatByUserId(Integer userId) throws UserException, ChatException;
 
     public Chat createGroup(GroupChatRequest req, User reqUser) throws UserException;
 

@@ -14,7 +14,7 @@ import com.nilesh.whatsappclone.expection.UserException;
 import com.nilesh.whatsappclone.model.Message;
 import com.nilesh.whatsappclone.model.User;
 import com.nilesh.whatsappclone.request.SendMessageRequest;
-import com.nilesh.whatsappclone.response.ApiResponse;
+import com.nilesh.whatsappclone.request.UpdateMessageRequest;
 import com.nilesh.whatsappclone.service.MessageService;
 import com.nilesh.whatsappclone.service.UserService;
 
@@ -56,16 +56,37 @@ public class MessageController {
         return new ResponseEntity<List<Message>>(chatsMessages, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{deleteId}")
-    public ResponseEntity<ApiResponse> deleteMessageByIdHandler(@PathVariable Integer chatId,
-            @RequestHeader("Authorization") String jwt) throws UserException, ChatException, MessageException {
+    // @DeleteMapping("/{deleteId}")
+    // public ResponseEntity<ApiResponse> deleteMessageByIdHandler(@PathVariable
+    // Integer chatId,
+    // @RequestHeader("Authorization") String jwt) throws UserException,
+    // ChatException, MessageException {
+
+    // User reqUser = userService.findUserByProfile(jwt);
+    // messageService.deleteMessageById(chatId, reqUser);
+    // ApiResponse apiResponse = new ApiResponse();
+    // apiResponse.setMessage("Message deleted successfully");
+    // apiResponse.setStatus(true);
+    // return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
+    // }
+
+    @PostMapping("/update")
+    public ResponseEntity<Message> updatedMessageContentHandler(@RequestBody UpdateMessageRequest updateMessageRequest,
+            @RequestHeader("Authorization") String jwt) throws UserException, MessageException {
 
         User reqUser = userService.findUserByProfile(jwt);
-        messageService.deleteMessageById(chatId, reqUser);
-        ApiResponse apiResponse = new ApiResponse();
-        apiResponse.setMessage("Message deleted successfully");
-        apiResponse.setStatus(true);
-        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
+        Message updatedMessageContent = messageService.updatedMessageContent(updateMessageRequest, reqUser);
+
+        return new ResponseEntity<Message>(updatedMessageContent, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/delete/{deleteId}")
+    public ResponseEntity<Message> updatedMessageDeletedHandler(@PathVariable Integer deleteId,
+            @RequestHeader("Authorization") String jwt) throws UserException, MessageException {
+
+        User reqUser = userService.findUserByProfile(jwt);
+        Message updatedMessageDeleted = messageService.updatedMessageDeleted(deleteId, reqUser);
+        return new ResponseEntity<Message>(updatedMessageDeleted, HttpStatus.OK);
     }
 
 }

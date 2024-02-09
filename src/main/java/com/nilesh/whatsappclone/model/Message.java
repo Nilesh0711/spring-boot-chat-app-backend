@@ -2,7 +2,12 @@ package com.nilesh.whatsappclone.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,7 +22,14 @@ public class Message {
     private String content;
     private LocalDateTime timestamp;
 
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
+
+    @Column(name = "is_edited")
+    private Boolean isEdited = false;
+
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
@@ -27,11 +39,21 @@ public class Message {
     public Message() {
     }
 
-    public Message(String content, LocalDateTime timestamp, User user, Chat chat) {
+    public Message(String content, LocalDateTime timestamp, Boolean isDeleted, Boolean isEdited, User user, Chat chat) {
         this.content = content;
         this.timestamp = timestamp;
+        this.isDeleted = isDeleted;
+        this.isEdited = isEdited;
         this.user = user;
         this.chat = chat;
+    }
+
+    public Boolean getIsEdited() {
+        return isEdited;
+    }
+
+    public void setIsEdited(Boolean isEdited) {
+        this.isEdited = isEdited;
     }
 
     public Integer getId() {
@@ -72,6 +94,14 @@ public class Message {
 
     public void setChat(Chat chat) {
         this.chat = chat;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override

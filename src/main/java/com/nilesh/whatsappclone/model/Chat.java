@@ -5,8 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,8 +30,8 @@ public class Chat {
     @Column(name = "is_group")
     private boolean isGroup;
 
-    @JoinColumn(name = "created_by")
     @ManyToOne
+    @JoinColumn(name = "created_by")
     private User createdBy;
 
     @ManyToMany
@@ -52,7 +56,6 @@ public class Chat {
         this.users = users;
         this.messages = messages;
     }
-
 
     public User getCreatedBy() {
         return createdBy;
@@ -121,7 +124,7 @@ public class Chat {
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
-    
+
     @Override
     public String toString() {
         return "Chat [id=" + id + ", chat_name=" + chat_name + ", chat_image=" + chat_image + ", isGroup=" + isGroup
