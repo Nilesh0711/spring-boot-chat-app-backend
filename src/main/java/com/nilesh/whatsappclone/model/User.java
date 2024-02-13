@@ -14,16 +14,27 @@ public class User {
     private String full_name;
     private String email;
     private String profile_picture;
+
     private String password;
-    
-    public User(String full_name, String email, String profile_picture, String password) {
+    private String about = "Hey there! I am using WhatsApp.";
+
+    public User(String full_name, String email, String profile_picture, String password, String about) {
         this.full_name = full_name;
         this.email = email;
         this.profile_picture = profile_picture;
         this.password = password;
+        this.about = about;
     }
 
     public User() {
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
     }
 
     public Integer getId() {
@@ -120,6 +131,5 @@ public class User {
             return false;
         return true;
     }
-    
 
 }

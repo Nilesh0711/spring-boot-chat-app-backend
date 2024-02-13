@@ -3,6 +3,7 @@ package com.nilesh.whatsappclone.request;
 public class UpdateUserRequest {
     private String full_name;
     private String profile_picture;
+    private String about;
 
     public UpdateUserRequest() {
     }
@@ -10,6 +11,14 @@ public class UpdateUserRequest {
     public UpdateUserRequest(String full_name, String profile_picture) {
         this.full_name = full_name;
         this.profile_picture = profile_picture;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
     }
 
     public String getFull_name() {

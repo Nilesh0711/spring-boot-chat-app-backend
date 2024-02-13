@@ -49,6 +49,8 @@ public class UserServiceImlp implements UserService {
             user.setFull_name(req.getFull_name());
         if (req.getProfile_picture() != null)
             user.setProfile_picture(req.getProfile_picture());
+        if (req.getAbout() != null)
+            user.setAbout(req.getAbout());
         userRepository.save(user);
         return null;
 
